@@ -1,0 +1,43 @@
+- name: Hello nginx
+  hosts: vms
+  become: true
+
+  vars:
+    hello_state: present
+
+  tasks:
+    - name: Install hello nginx
+      when: hello_state == "present"
+      block:
+        - name: Install nginx
+          ansible.builtin.apt:
+            name: nginx
+            state: present
+            update_cache: true
+
+        - name: Put a start page
+          ansible.builtin.copy:
+            dest: /var/www/html/index.html
+            content: |
+              <h1>Hello from {{ inventory_hostname }}!</h1>
+              <p>Configured by Ansible</p>
+
+        - name: Start nginx
+          ansible.builtin.service:
+            name: nginx
+            state: started
+
+    - name: Remove hello nginx
+      when: hello_state == "absent"
+      block:
+        - name: Remove nginx
+          ansible.builtin.apt:
+            name: nginx
+            state: absent
+            purge: true
+            autoremove: true
+
+        - name: Remove start page
+          ansible.builtin.file:
+            path: /var/www/html/index.html
+            state: absent
