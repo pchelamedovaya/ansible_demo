@@ -1,0 +1,10 @@
+all:
+  children:
+    local:
+      hosts:
+        localhost:
+          ansible_connection: local
+    vms:
+      hosts:
+        vm1:
+        vm2:
