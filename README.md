@@ -4,12 +4,15 @@
 
 ## Что внутри
 
-| Файл                   | Зачем                                                     |
-|------------------------|-----------------------------------------------------------|
-| `ansible.cfg`          | Настройки Ansible: где inventory, где роли, параметры SSH |
-| `inventory/hosts.yaml` | Список хостов                                             |
-| `inventory/host_vars/` | Шаблоны параметров подключения к хостам                   |
-| `playbooks/`           | Playbook'и                                                |
+| Путь                          | Зачем                                                     |
+|-------------------------------|-----------------------------------------------------------|
+| `shared/inventory/hosts.yaml` | Список хостов, общий для всех кейсов                      |
+| `shared/inventory/host_vars/` | Параметры подключения к хостам (шаблоны `*.yaml.example`) |
+| `taskNN-<название>/`          | Кейсы                                                     |
+
+Каждый кейс самостоятельный: `ansible.cfg` внутри папки кейса указывает, где inventory и роли
+
+> Все команды запускаются **из папки кейса**
 
 ### Хосты
 
@@ -20,9 +23,9 @@
 
 - Python 3
 - Ansible: `pip install ansible` (или `sudo apt install ansible`)
-- Для каждой ВМ файл `inventory/host_vars/<имя_хоста>.yaml`. Файлы можно создать из шаблонов:
+- Для каждой ВМ файл `shared/inventory/host_vars/<имя_хоста>.yaml`. Файлы можно создать из шаблонов:
   ```bash
-  cp inventory/host_vars/<имя_хоста>.yaml.example inventory/host_vars/<имя_хоста>.yaml
+  cp shared/inventory/host_vars/<имя_хоста>.yaml.example shared/inventory/host_vars/<имя_хоста>.yaml
   ```
 - SSH-доступ к каждой ВМ по ключу без пароля (настраивается один раз на машину: `ssh-copy-id <user>@<vm_ip>`)
 
@@ -31,27 +34,28 @@
 Проверить, что Ansible видит все хосты:
 
 ```bash
+cd task00-hello_nginx
 ansible-inventory --graph
 ```
 
->Все команды запускаются из корня проекта
+## Кейсы
 
-## Playbook'и
-
-### hello_nginx
+### task00-hello_nginx
 
 Устанавливает nginx на ВМ и создает страницу, на которой написано имя хоста
 
 Установить:
 
 ```bash
-ansible-playbook playbooks/hello_nginx.yaml -K
+cd task00-hello_nginx
+ansible-playbook playbook.yaml -K
 ```
 
 Удалить:
 
 ```bash
-ansible-playbook playbooks/hello_nginx.yaml -K -e hello_state=absent
+cd task00-hello_nginx
+ansible-playbook playbook.yaml -K -e hello_state=absent
 ```
 
 > После установки страница доступна по адресу ВМ, например `http://<vm_ip>`

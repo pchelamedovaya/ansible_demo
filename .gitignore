@@ -23,5 +23,5 @@ venv/
 Thumbs.db
 
 # Local host settings
-inventory/host_vars/*.yaml
-inventory/host_vars/*.yml
+**/inventory/host_vars/*.yaml
+**/inventory/host_vars/*.yml
