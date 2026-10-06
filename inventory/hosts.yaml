@@ -4,6 +4,7 @@ all:
       hosts:
         vm1:
         vm2:
+        vm3:
     memos:
       children:
         memos_db:
@@ -12,3 +13,4 @@ all:
         memos_app:
           hosts:
             vm2:
+            vm3:

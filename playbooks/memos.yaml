@@ -8,6 +8,7 @@
 - name: Deploy Memos
   tags: app
   hosts: memos_app
+  serial: 1
   become: true
   roles:
     - memos
