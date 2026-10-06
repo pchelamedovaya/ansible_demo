@@ -1,0 +1,9 @@
+memos_db_name: memos
+memos_db_user: memos
+memos_db_password: "{{ vault_memos_db_password }}"
+memos_db_port: 5432
+memos_db_host: "{{ hostvars[groups['memos_db'][0]].ansible_host }}"
+postgresql_db: "{{ memos_db_name }}"
+postgresql_user: "{{ memos_db_user }}"
+postgresql_password: "{{ memos_db_password }}"
+postgresql_port: "{{ memos_db_port }}"

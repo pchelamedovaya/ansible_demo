@@ -1,0 +1,13 @@
+- name: Set up database
+  tags: db
+  hosts: memos_db
+  become: true
+  roles:
+    - postgresql
+
+- name: Deploy Memos
+  tags: app
+  hosts: memos_app
+  become: true
+  roles:
+    - memos

@@ -1,0 +1,22 @@
+- name: Run Memos container
+  community.docker.docker_container:
+    name: memos
+    image: "neosmemo/memos:{{ memos_version }}"
+    state: started
+    restart_policy: unless-stopped
+    env:
+      MEMOS_DRIVER: postgres
+      MEMOS_DSN: "postgresql://{{ memos_db_user }}:{{ memos_db_password }}@{{ memos_db_host }}:{{ memos_db_port }}/{{ memos_db_name }}?sslmode=disable"
+    published_ports:
+      - "{{ memos_port }}:5230"
+    volumes:
+      - memos_data:/var/opt/memos
+  no_log: true
+
+- name: Wait for Memos to respond
+  ansible.builtin.uri:
+    url: "http://127.0.0.1:{{ memos_port }}/healthz"
+  register: memos_health
+  until: memos_health.status == 200
+  retries: 30
+  delay: 2

@@ -1,10 +1,14 @@
 all:
   children:
-    local:
-      hosts:
-        localhost:
-          ansible_connection: local
     vms:
       hosts:
         vm1:
         vm2:
+    memos:
+      children:
+        memos_db:
+          hosts:
+            vm1:
+        memos_app:
+          hosts:
+            vm2:
