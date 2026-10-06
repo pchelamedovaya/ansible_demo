@@ -16,13 +16,6 @@
 
 > Все команды запускаются **из корня проекта**
 
-### Хосты
-
-- **vms**: ВМ `vm1` и `vm2`, к которым Ansible подключается по SSH
-- **memos**: хосты кейса memos
-    - **memos_db**: `vm1`, PostgreSQL
-    - **memos_app**: `vm2`, Memos
-
 ## Требования
 
 - Python 3
@@ -40,35 +33,14 @@
 
 ## Пароли при запуске
 
-Плейбуки спрашивают два пароля:
+Плейбук запрашивает два пароля:
 
 | Флаг               | Что спрашивает                 |
 |--------------------|--------------------------------|
 | `-K`               | пароль sudo пользователя на ВМ |
 | `--ask-vault-pass` | пароль от Ansible Vault        |
 
-> Пароль Vault нужен для любых команд на `vm1` и `vm2`, даже если плейбуку секреты не нужны
-## Кейсы
-
-### hello_nginx
-
-Устанавливает nginx на ВМ и создает страницу, на которой написано имя хоста
-
-Запуск:
-
-```bash
-ansible-playbook playbooks/hello_nginx.yaml -K --ask-vault-pass
-```
-
-Удаление:
-
-```bash
-ansible-playbook playbooks/hello_nginx.yaml -K --ask-vault-pass -e hello_state=absent
-```
-
-> После запуска страница доступна по адресу ВМ, например `http://<vm_ip>`
-
-### memos
+## memos
 
 Разворачивает сервис заметок [Memos](https://github.com/usememos/memos) в Docker на двух ВМ: база на `vm1`, приложение
 на `vm2`
