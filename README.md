@@ -42,13 +42,13 @@
 
 ## memos
 
-Разворачивает сервис заметок [Memos](https://github.com/usememos/memos) в Docker на двух ВМ: база на `vm1`, приложение
-на `vm2`
+Разворачивает сервис заметок [Memos](https://github.com/usememos/memos) в Docker на трёх ВМ: база на `vm1`, две копии
+приложения на `vm2` и `vm3`
 
-| Хост  | Роли                   | Что делает                                                             |
-|-------|------------------------|------------------------------------------------------------------------|
-| `vm1` | `docker`, `postgresql` | Ставит Docker, запускает контейнер PostgreSQL                          |
-| `vm2` | `docker`, `memos`      | Ставит Docker, запускает контейнер Memos, подключенный к базе на `vm1` |
+| Хост           | Роли                   | Что делает                                                             |
+|----------------|------------------------|------------------------------------------------------------------------|
+| `vm1`          | `docker`, `postgresql` | Ставит Docker, запускает контейнер PostgreSQL                          |
+| `vm2`, `vm3`   | `docker`, `memos`      | Ставит Docker, запускает контейнер Memos, подключенный к базе на `vm1` |
 
 Пароль базы лежит в `inventory/group_vars/memos/vault.yaml`, зашифрованном через Ansible Vault
 
@@ -65,7 +65,7 @@ ansible-vault create inventory/group_vars/memos/vault.yaml
 ansible-playbook playbooks/memos.yaml -K --ask-vault-pass
 ```
 
-> После запуска Memos доступен по адресу `http://<vm2_ip>:5230`
+> После запуска Memos доступен по адресам `http://<vm2_ip>:5230` и `http://<vm3_ip>:5230`
 
 ## Полезные ссылки
 
