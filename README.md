@@ -40,7 +40,7 @@
 Готовит ВМ к работе с Ansible. Запускается один раз на новых ВМ:
 
 ```bash
-ansible-playbook playbooks/bootstrap.yaml -e bootstrap_user=<user> -k -K --ask-vault-pass
+ansible-playbook playbooks/bootstrap.yaml -e bootstrap_user=<user> -k -K
 ```
 
 После bootstrap все плейбуки работают под `ansible` по ключу, пароль sudo не нужен
@@ -48,7 +48,7 @@ ansible-playbook playbooks/bootstrap.yaml -e bootstrap_user=<user> -k -K --ask-v
 Вход по паролю после bootstrap отключен, поэтому повторный запуск — под `ansible`:
 
 ```bash
-ansible-playbook playbooks/bootstrap.yaml -e bootstrap_user=ansible --ask-vault-pass
+ansible-playbook playbooks/bootstrap.yaml -e bootstrap_user=ansible
 ```
 
 ## memos
@@ -61,13 +61,13 @@ ansible-playbook playbooks/bootstrap.yaml -e bootstrap_user=ansible --ask-vault-
 | `vm1`        | `docker`, `postgresql` | Ставит Docker, запускает контейнер PostgreSQL                          |
 | `vm2`, `vm3` | `docker`, `memos`      | Ставит Docker, запускает контейнер Memos, подключенный к базе на `vm1` |
 
-Пароль базы лежит в `inventory/group_vars/memos/vault.yaml`, зашифрованном через Ansible Vault
+Пароль базы лежит в `playbooks/vars/vault.yaml`, зашифрованном через Ansible Vault
 
 Если вы склонировали проект, создайте свой файл с переменной `vault_memos_db_password`:
 
 ```bash
-rm inventory/group_vars/memos/vault.yaml
-ansible-vault create inventory/group_vars/memos/vault.yaml
+rm playbooks/vars/vault.yaml
+ansible-vault create playbooks/vars/vault.yaml
 ```
 
 Запуск:

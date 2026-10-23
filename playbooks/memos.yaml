@@ -2,6 +2,8 @@
   tags: db
   hosts: memos_db
   become: true
+  vars_files:
+    - vars/vault.yaml
   roles:
     - postgresql
 
@@ -10,5 +12,7 @@
   hosts: memos_app
   serial: 1
   become: true
+  vars_files:
+    - vars/vault.yaml
   roles:
     - memos
